@@ -1,4 +1,6 @@
+import 'package:expense_app/view/expense_page.dart';
 import 'package:expense_app/view/home_page.dart';
+import 'package:expense_app/view/income_page.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBarPage extends StatefulWidget {
@@ -9,15 +11,7 @@ class BottomNavBarPage extends StatefulWidget {
 }
 
 class _BottomNavBarPageState extends State<BottomNavBarPage> {
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    Text(
-      'Index 1: Business',
-    ),
-    Text(
-      'Index 2: School',
-    ),
-  ];
+  static const List<Widget> _widgetOptions = <Widget>[HomePage(), ExpensePage(), IncomePage()];
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -39,12 +33,12 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: Icon(Icons.event_note_outlined),
+            label: 'Expense',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.incomplete_circle_rounded),
+            label: 'Income',
           ),
         ],
         currentIndex: _selectedIndex,
