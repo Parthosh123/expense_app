@@ -43,19 +43,28 @@ class _ExpensePageState extends State<ExpensePage> {
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  expenseBottomSheet();
-                },
-                child: Text("Add Income"),
-              ),
+              Text("0.0"),
               // View income
               SizedBox(height: 20), SizedBox(height: 20),
-              Text(
-                "Expenses",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Expenses",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      expenseBottomSheet();
+                    },
+                    child: Text(
+                      "add",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
               ),
               Expanded(
                 child: ListView.builder(
