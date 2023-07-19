@@ -1,7 +1,7 @@
 class Expense {
   String? title;
   double? amount;
-  DateTime? date;
+  String? date;
   String? category;
   String? notes;
 

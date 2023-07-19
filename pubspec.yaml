@@ -38,6 +38,11 @@ dependencies:
   lottie:
   flutter_svg:
   intl:
+  provider:
+  firebase_auth:
+  firebase_core:
+  firebase_database:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:
