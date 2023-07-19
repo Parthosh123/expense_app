@@ -34,44 +34,47 @@ class _IncomePageState extends State<IncomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: incomeSourceController,
-              decoration: InputDecoration(labelText: "Income Source"),
-            ),
-            TextField(
-              controller: incomeAmountController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(labelText: "Income Amount"),
-            ),
-            ElevatedButton(
-              onPressed: addIncome,
-              child: Text("Add Income"),
-            ),
-
-            // View income
-            SizedBox(height: 20),
-            Text(
-              "Income",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: income.length,
-                itemBuilder: (context, index) {
-                  var incomeItem = income[index];
-                  return ListTile(
-                    title: Text(incomeItem.source!),
-                    subtitle: Text("${incomeItem.amount}"),
-                    trailing: Text(incomeItem.date.toString()),
-                  );
-                },
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                controller: incomeSourceController,
+                decoration: InputDecoration(labelText: "Income Source"),
               ),
-            ),
-          ],
+              TextField(
+                controller: incomeAmountController,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(labelText: "Income Amount"),
+              ),
+              ElevatedButton(
+                onPressed: addIncome,
+                child: Text("Add Income"),
+              ),
+
+              // View income
+              SizedBox(height: 20),
+              Text(
+                "Income",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+
+              Expanded(
+                child: ListView.builder(
+                  itemCount: income.length,
+                  itemBuilder: (context, index) {
+                    var incomeItem = income[index];
+                    return ListTile(
+                      title: Text("incomeItem.source!"),
+                      subtitle: Text("${incomeItem.amount}"),
+                      trailing: Text(incomeItem.date.toString()),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
