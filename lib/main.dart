@@ -20,7 +20,7 @@ List<SingleChildWidget> providers = [
 ];
 
 final FirebaseAuth auth = FirebaseAuth.instance;
-final databaseReference = FirebaseDatabase.instance.reference();
+final databaseReference = FirebaseDatabase.instance.ref();
 late SharedPreferences localData;
 
 Future<void> main() async {

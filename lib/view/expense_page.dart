@@ -13,13 +13,13 @@ class ExpensePage extends StatefulWidget {
 }
 
 class _ExpensePageState extends State<ExpensePage> {
-  // @override
-  // void initState() {
-  //   final getData = Provider.of<ProviderController>(context, listen: false);
-  //   getData.getExpense();
-  //   // TODO: implement initState
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    final getData = Provider.of<ProviderController>(context, listen: false);
+    getData.getExpense();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

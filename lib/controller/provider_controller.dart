@@ -12,7 +12,7 @@ extension StringExtension on String {
 
 class ProviderController with ChangeNotifier {
   // Expense expenses = Expense();
-  User? user;
+  User? user = auth.currentUser;
   bool loading = false;
   double totalExpense = 0.0;
   List<Expense> expenses = [];
@@ -21,11 +21,19 @@ class ProviderController with ChangeNotifier {
 
   void getExpense() {
     loading = true;
+    totalExpense = 0.0;
+    expenses.clear();
     DatabaseReference starCountRef = FirebaseDatabase.instance.ref('expense tracker/${user!.uid}/');
     starCountRef.once().then((event) {
       var value = event.snapshot.child('totalExpense').value.toString();
-      totalExpense = totalExpense + double.parse(value);
+      totalExpense = double.parse(value);
+      print(totalExpense);
+      loading = false;
+      notifyListeners();
+    }).catchError((val) {
+      loading = false;
     });
+
     starCountRef.child('expense').once().then((event) {
       Expense newExpense = Expense();
       final data = event.snapshot;
@@ -41,6 +49,8 @@ class ProviderController with ChangeNotifier {
       expenses.add(newExpense);
       loading = false;
       notifyListeners();
+    }).catchError((val) {
+      loading = false;
     });
   }
 
@@ -52,38 +62,45 @@ class ProviderController with ChangeNotifier {
     DateTime date = DateTime.now();
     String category = "Other"; // Default category
     String notes = "";
-    user = auth.currentUser;
     try {
-      databaseReference.child("expense tracker").child(user!.uid).child("expense").push().set({
+      DatabaseReference data = databaseReference.child("expense tracker").child(user!.uid).ref;
+      data.set(({
+        "totalExpense": totalExpense + amount,
+      }));
+      print(expenses.length);
+      data.child("expense").push().set({
         'title': title,
         'amount': amount,
         'date': date.toString(),
         'category': category,
         'notes': notes,
       }).then((value) {
-        DatabaseReference starCountRef = FirebaseDatabase.instance.ref('expense tracker/${user!.uid}/');
-        starCountRef.once().then((event) {
-          var value = event.snapshot.child('totalExpense').value.toString();
-          totalExpense = totalExpense + double.parse(value);
-        });
-        starCountRef.child('expense').once().then((event) {
-          Expense newExpense = Expense();
-          final data = event.snapshot;
-          (data.value as Map).forEach((key, value) {
-            newExpense = Expense(
-              title: value['title'],
-              amount: value['amount']?.toDouble(),
-              date: value['date'],
-              category: value['category'],
-              notes: value['notes'],
-            );
-          });
-          expenses.add(newExpense);
-          expenseAmountController.clear();
-          expenseTitleController.clear();
-          loading = false;
-          notifyListeners();
-        });
+        expenseTitleController.clear();
+        expenseAmountController.clear();
+        getExpense();
+        // DatabaseReference starCountRef = FirebaseDatabase.instance.ref('expense tracker/${user!.uid}/');
+        // starCountRef.once().then((event) {
+        //   var value = event.snapshot.child('totalExpense').value.toString();
+        //   totalExpense = totalExpense + double.parse(value);
+        // });
+        // starCountRef.child('expense').once().then((event) {
+        //   Expense newExpense = Expense();
+        //   final data = event.snapshot;
+        //   (data.value as Map).forEach((key, value) {
+        //     newExpense = Expense(
+        //       title: value['title'],
+        //       amount: value['amount']?.toDouble(),
+        //       date: value['date'],
+        //       category: value['category'],
+        //       notes: value['notes'],
+        //     );
+        //   });
+        //   expenses.add(newExpense);
+        //   expenseAmountController.clear();
+        //   expenseTitleController.clear();
+        //   loading = false;
+        //   notifyListeners();
+        // });
       });
     } finally {
       loading = false;
